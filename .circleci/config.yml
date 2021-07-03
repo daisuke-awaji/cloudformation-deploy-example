@@ -1,0 +1,29 @@
+version: 2.1
+
+orbs:
+  cloudformation: orbss/aws-cloudformation@0.1.6
+
+jobs:
+  cfn-lint:
+    docker:
+      - image: circleci/python:latest
+    steps:
+      - checkout
+      - run: sudo pip install cfn-lint
+      - run: cfn-lint templates/*.yaml
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - cfn-lint
+
+  deploy:
+    jobs:
+      - cloudformation/deploy:
+          filters:
+            branches:
+              only: master
+          stack-name: "VPC-SecurityGroup"
+          template-file-path: "templates/vpc-securitygroup.yaml"
+          extra-arguments: --no-fail-on-empty-changeset
