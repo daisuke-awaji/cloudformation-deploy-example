@@ -13,6 +13,6 @@ Resources:
       SecurityGroupIngress:
         - CidrIp: 0.0.0.0/0
           Description: from global internet
-          FromPort: 80
+          FromPort: 8080
           IpProtocol: TCP
-          ToPort: 80
+          ToPort: 8080
